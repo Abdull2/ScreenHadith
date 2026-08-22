@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b2f29" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="description" content="شاشة أحاديث نبوية متحركة من مكتبة تدارُك، تعمل كتطبيق ويب قابل للتثبيت وبدون فيديو." />
+  <title>تدارُك | شاشة الحديث</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient" aria-hidden="true">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="grid"></div>
+  </div>
+
+  <main id="display" class="display" aria-live="polite">
+    <header class="topline">
+      <div class="brand"><span class="brand-mark">تدارُك</span><span>شاشة الحديث</span></div>
+      <div id="clock" class="clock" aria-label="الوقت الحالي"></div>
+    </header>
+
+    <section id="stage" class="stage is-loading">
+      <div class="eyebrow">قال رسول الله ﷺ</div>
+      <blockquote id="hadithText" class="hadith-text">جارٍ تجهيز مكتبة الأحاديث…</blockquote>
+      <div id="hadithMeta" class="hadith-meta"></div>
+      <div id="hadithSource" class="hadith-source"></div>
+    </section>
+
+    <footer class="bottomline">
+      <div id="collectionLabel" class="collection-label"></div>
+      <div id="counter" class="counter"></div>
+    </footer>
+
+    <div class="progress-track" aria-hidden="true"><div id="progressBar" class="progress-bar"></div></div>
+  </main>
+
+  <button id="showControls" class="floating-control" type="button" aria-label="إظهار أدوات التحكم">☰</button>
+
+  <div id="controls" class="controls is-visible" role="toolbar" aria-label="أدوات العرض">
+    <button id="prevBtn" type="button">السابق</button>
+    <button id="pauseBtn" type="button">إيقاف مؤقت</button>
+    <button id="nextBtn" type="button">التالي</button>
+    <button id="fullscreenBtn" type="button">ملء الشاشة</button>
+    <button id="settingsBtn" type="button">الإعدادات</button>
+  </div>
+
+  <div id="startOverlay" class="start-overlay">
+    <div class="start-card">
+      <img src="icons/icon-192.png" alt="" class="start-logo" />
+      <h1>تدارُك | شاشة الحديث</h1>
+      <p>أحاديث نبوية تتبدل تلقائيًا بحركة هادئة، بدون تشغيل فيديو.</p>
+      <div id="librarySummary" class="library-summary">جارٍ تحميل المكتبة…</div>
+      <button id="startBtn" class="primary" type="button" disabled>ابدأ العرض</button>
+      <button id="startFullscreenBtn" type="button" disabled>ابدأ بملء الشاشة</button>
+    </div>
+  </div>
+
+  <dialog id="settingsDialog" class="settings-dialog">
+    <form method="dialog" id="settingsForm">
+      <div class="settings-head">
+        <div>
+          <h2>إعدادات العرض</h2>
+          <p>تُحفظ على هذا الجهاز فقط.</p>
+        </div>
+        <button value="cancel" class="icon-btn" aria-label="إغلاق">×</button>
+      </div>
+
+      <fieldset>
+        <legend>مصادر الأحاديث</legend>
+        <label><input id="srcNawawi" type="checkbox" /> الأربعون النووية <small id="countNawawi"></small></label>
+        <label><input id="srcRiyad" type="checkbox" /> رياض الصالحين <small id="countRiyad"></small></label>
+        <label><input id="srcAgreed" type="checkbox" /> مختارات المتفق عليه <small id="countAgreed"></small></label>
+      </fieldset>
+
+      <div class="settings-grid">
+        <label>مدة ظهور الحديث
+          <select id="durationSelect">
+            <option value="10">10 ثوانٍ</option>
+            <option value="15">15 ثانية</option>
+            <option value="20">20 ثانية</option>
+            <option value="30">30 ثانية</option>
+            <option value="45">45 ثانية</option>
+            <option value="60">60 ثانية</option>
+          </select>
+        </label>
+
+        <label>ترتيب العرض
+          <select id="orderSelect">
+            <option value="random">عشوائي</option>
+            <option value="sequential">متسلسل</option>
+          </select>
+        </label>
+
+        <label>طول الحديث
+          <select id="lengthSelect">
+            <option value="320">قصير — الأنسب للشاشات البعيدة</option>
+            <option value="620">قصير ومتوسط</option>
+            <option value="1000">حتى 1000 حرف</option>
+            <option value="0">كل الأطوال</option>
+          </select>
+        </label>
+
+        <label>المظهر
+          <select id="themeSelect">
+            <option value="night">ليلي</option>
+            <option value="paper">ورقي</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="toggle-line"><input id="clockToggle" type="checkbox" /> إظهار الساعة</label>
+      <label class="toggle-line"><input id="autoHideToggle" type="checkbox" /> إخفاء أدوات التحكم تلقائيًا</label>
+
+      <div class="settings-note">
+        <strong>المصادر:</strong> النصوص مأخوذة من ملفات تدارُك الحالية. «مختارات المتفق عليه» في هذه النسخة التجريبية هي الـ12 حديثًا المراجعة داخل تدارُك، وليست ادعاءً بأن الكتاب الكامل 1906 حديثًا مضمّن هنا.
+      </div>
+
+      <div class="settings-actions">
+        <button id="applySettings" value="default" class="primary">تطبيق</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
