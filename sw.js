@@ -1,8 +1,8 @@
-const CACHE = 'tadaruq-hadith-screen-v01-20260822';
+const CACHE = 'mishkat-hadith-screen-v02-root-20260822';
 const ASSETS = [
   './','index.html','styles.css','app.js','manifest.webmanifest',
-  'icons/icon-192.png','icons/icon-512.png',
-  'data/nawawi40.json','data/riyad.json','data/agreed-hadith.json'
+  'icon-192.png','icon-512.png',
+  'nawawi40.json','riyad.json','agreed-hadith.json'
 ];
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())));
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())));

@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b2f29" />
+  <meta name="theme-color" content="#17203a" />
   <meta name="color-scheme" content="dark light" />
-  <meta name="description" content="شاشة أحاديث نبوية متحركة من مكتبة تدارُك، تعمل كتطبيق ويب قابل للتثبيت وبدون فيديو." />
-  <title>تدارُك | شاشة الحديث</title>
+  <meta name="description" content="شاشة أحاديث نبوية متحركة من مكتبة الأحاديث الموثقة، تعمل كتطبيق ويب قابل للتثبيت وبدون فيديو." />
+  <title>مِشكاة | شاشة الحديث</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="icon" href="icons/icon-192.png" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -21,7 +21,7 @@
 
   <main id="display" class="display" aria-live="polite">
     <header class="topline">
-      <div class="brand"><span class="brand-mark">تدارُك</span><span>شاشة الحديث</span></div>
+      <div class="brand"><span class="brand-logo" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 6c9 8 15 16 15 25 0 10-7 18-15 27-8-9-15-17-15-27 0-9 6-17 15-25Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M22 34h20M26 26h12M28 43h8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span><span class="brand-mark">مِشكاة</span><span>شاشة الحديث</span></div>
       <div id="clock" class="clock" aria-label="الوقت الحالي"></div>
     </header>
 
@@ -52,8 +52,8 @@
 
   <div id="startOverlay" class="start-overlay">
     <div class="start-card">
-      <img src="icons/icon-192.png" alt="" class="start-logo" />
-      <h1>تدارُك | شاشة الحديث</h1>
+      <img src="icon-192.png" alt="" class="start-logo" />
+      <div class="hero-logo"><span class="brand-logo" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 6c9 8 15 16 15 25 0 10-7 18-15 27-8-9-15-17-15-27 0-9 6-17 15-25Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M22 34h20M26 26h12M28 43h8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span></div><h1>مِشكاة | شاشة الحديث</h1>
       <p>أحاديث نبوية تتبدل تلقائيًا بحركة هادئة، بدون تشغيل فيديو.</p>
       <div id="librarySummary" class="library-summary">جارٍ تحميل المكتبة…</div>
       <button id="startBtn" class="primary" type="button" disabled>ابدأ العرض</button>
@@ -118,7 +118,7 @@
       <label class="toggle-line"><input id="autoHideToggle" type="checkbox" /> إخفاء أدوات التحكم تلقائيًا</label>
 
       <div class="settings-note">
-        <strong>المصادر:</strong> النصوص مأخوذة من ملفات تدارُك الحالية. «مختارات المتفق عليه» في هذه النسخة التجريبية هي الـ12 حديثًا المراجعة داخل تدارُك، وليست ادعاءً بأن الكتاب الكامل 1906 حديثًا مضمّن هنا.
+        <strong>المصادر:</strong> النصوص مأخوذة من مجموعات الأحاديث الموثقة المضمّنة في النسخة التجريبية. «مختارات المتفق عليه» هنا هي 12 حديثًا مراجَعًا فقط، ولا تعني أن الكتاب الكامل مضمّن في هذه النسخة.
       </div>
 
       <div class="settings-actions">

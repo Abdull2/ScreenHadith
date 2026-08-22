@@ -2,7 +2,7 @@
   'use strict';
 
   const $ = (id) => document.getElementById(id);
-  const SETTINGS_KEY = 'tadaruq-hadith-screen-settings-v1';
+  const SETTINGS_KEY = 'mishkat-hadith-screen-settings-v1';
   const DEFAULTS = {
     sources: { nawawi: true, riyad: true, agreed: true },
     duration: 20,
@@ -107,9 +107,9 @@
 
   async function loadLibraries() {
     const [nawawi, riyad, agreed] = await Promise.all([
-      fetch('data/nawawi40.json').then(r => { if(!r.ok) throw new Error('nawawi'); return r.json(); }),
-      fetch('data/riyad.json').then(r => { if(!r.ok) throw new Error('riyad'); return r.json(); }),
-      fetch('data/agreed-hadith.json').then(r => { if(!r.ok) throw new Error('agreed'); return r.json(); })
+      fetch('nawawi40.json').then(r => { if(!r.ok) throw new Error('nawawi'); return r.json(); }),
+      fetch('riyad.json').then(r => { if(!r.ok) throw new Error('riyad'); return r.json(); }),
+      fetch('agreed-hadith.json').then(r => { if(!r.ok) throw new Error('agreed'); return r.json(); })
     ]);
     state.libraries.nawawi = normalizeNawawi(nawawi);
     state.libraries.riyad = normalizeRiyad(riyad);
@@ -403,7 +403,7 @@
     } catch (err) {
       console.error(err);
       $('hadithText').textContent = 'تعذر تحميل مكتبة الأحاديث.';
-      $('hadithMeta').textContent = 'تأكد أن ملفات data/ مرفوعة مع الصفحة.';
+      $('hadithMeta').textContent = 'تأكد أن ملفات الأحاديث JSON مرفوعة مع الصفحة في الـroot.';
       $('librarySummary').textContent = 'حدث خطأ أثناء تحميل المكتبة';
     }
     if ('serviceWorker' in navigator) {

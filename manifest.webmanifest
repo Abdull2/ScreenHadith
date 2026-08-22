@@ -1,16 +1,24 @@
 {
-  "name": "تدارُك | شاشة الحديث",
-  "short_name": "شاشة الحديث",
-  "description": "شاشة أحاديث نبوية متحركة من مكتبة تدارُك، تعمل بدون فيديو.",
+  "name": "مِشكاة | شاشة الحديث",
+  "short_name": "مِشكاة",
+  "description": "شاشة مستقلة لعرض الأحاديث النبوية تلقائيًا في وضع ملء الشاشة.",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#071f1b",
-  "theme_color": "#0b2f29",
+  "background_color": "#0b1020",
+  "theme_color": "#17203a",
   "icons": [
-    {"src":"icons/icon-192.png","sizes":"192x192","type":"image/png"},
-    {"src":"icons/icon-512.png","sizes":"512x512","type":"image/png"}
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
