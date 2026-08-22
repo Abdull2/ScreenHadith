@@ -1,4 +1,4 @@
-const CACHE='mishkat-hadith-screen-v05-20260822';
+const CACHE='mishkat-hadith-screen-v06-20260822';
 const PREFIX='mishkat-hadith-screen-';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./riyad.json','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(async c=>{for(const url of ASSETS){const r=await fetch(url,{cache:'reload'});if(!r.ok)throw new Error(`Precache failed ${url}: ${r.status}`);await c.put(url,r)}}).then(()=>self.skipWaiting())));

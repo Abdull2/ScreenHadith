@@ -2,7 +2,7 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const EXPECTED_COUNT = 1896;
-  const SETTINGS_KEY = 'mishkat-screen-v05-settings';
+  const SETTINGS_KEY = 'mishkat-screen-v06-settings';
   const defaults = { duration:20, order:'random', maxChars:0, theme:'ivory', clock:true, autoHide:true, burnInGuard:true };
   const state = { items:[], pool:[], current:null, pages:[], pageIndex:0, itemIndex:-1, history:[], historyPos:-1, started:false, paused:false, transitioning:false, timerId:0, progressId:0, cycleStart:0, cycleMs:20000, elapsedBeforePause:0, controlsTimer:0, clockTimer:0, burnTimer:0, wakeLock:null, settings:loadSettings() };
 
@@ -54,7 +54,7 @@
   function renderCurrent(){
     const item=state.current; if(!item)return; const page=state.pages[state.pageIndex] ?? '';
     const txt=$('hadithText'); txt.className=`hadith-text ${fontClass(page.length)}`; txt.textContent=page; txt.scrollTop=0;
-    $('partLabel').textContent=state.pages.length>1?`الحديث ${item.n} — الجزء ${state.pageIndex+1} من ${state.pages.length}`:`الحديث ${item.n}`;
+    $('partLabel').textContent=state.pages.length>1?`الحديث ${item.n} · الجزء ${state.pageIndex+1} من ${state.pages.length}`:`الحديث ${item.n}`;
     $('bookName').textContent=item.book; $('hadithNumber').textContent=String(item.n); $('hadithLink').href=`https://sunnah.com/riyadussalihin:${item.n}`;
     $('collectionLabel').textContent=`رياض الصالحين · ${item.book}`; $('stage').classList.remove('is-loading');
     $('announcement').textContent=`رياض الصالحين، الحديث ${item.n}${state.pages.length>1?`، الجزء ${state.pageIndex+1} من ${state.pages.length}`:''}`;
