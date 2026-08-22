@@ -8,7 +8,7 @@
     duration: 20,
     order: 'random',
     maxChars: 620,
-    theme: 'night',
+    theme: 'ivory',
     clock: true,
     autoHide: true
   };
@@ -49,10 +49,39 @@
 
   function escText(v) { return String(v ?? '').replace(/\s+/g, ' ').trim(); }
 
-  function riyadSourceHint(text) {
-    const s = escText(text);
-    const matches = [...s.matchAll(/\(\(([^()]{2,180})\)\)/g)].map(m => m[1].trim());
-    return matches.length ? matches.slice(-2).join(' — ') : '';
+  function riyadSourceParts(text) {
+    const raw = String(text ?? '');
+    const citations = [...raw.matchAll(/\(\(([\s\S]*?)\)\)/g)]
+      .map(m => escText(m[1]))
+      .filter(Boolean);
+    const cleanText = escText(
+      raw
+        .replace(/\s*\(\(([\s\S]*?)\)\)\s*/g, ' ')
+        .replace(/\s*[.،؛]?\s*\(\d+\)\s*$/g, '')
+    );
+    return { cleanText, citations };
+  }
+
+  function summarizeTakhrij(parts) {
+    const s = escText((parts || []).join(' — '));
+    if (!s) return 'التخريج مذكور في أصل رياض الصالحين المضمّن';
+    if (/متفق عليه|متفق على صحته/.test(s)) return 'متفق عليه — رواه البخاري ومسلم';
+    const names = [];
+    const rules = [
+      ['البخاري', /رواه\s+البخاري|رواه\s+البخارى/],
+      ['مسلم', /رواه\s+مسلم/],
+      ['أبو داود', /رواه\s+أبو\s+داود/],
+      ['الترمذي', /رواه\s+الترمذي/],
+      ['النسائي', /رواه\s+النسائي/],
+      ['ابن ماجه', /رواه\s+ابن\s+ماجه/]
+    ];
+    for (const [name, re] of rules) if (re.test(s)) names.push(name);
+    let grade = '';
+    if (/حديث حسن صحيح/.test(s)) grade = 'حديث حسن صحيح';
+    else if (/حديث حسن/.test(s)) grade = 'حديث حسن';
+    else if (/حديث صحيح/.test(s)) grade = 'حديث صحيح';
+    const by = names.length ? `رواه ${names.join(' و')}` : s.slice(0, 190);
+    return grade ? `${by} — ${grade}` : by;
   }
 
   function normalizeNawawi(data) {
@@ -65,6 +94,7 @@
       title: escText(x.title),
       text: escText(x.text),
       meta: `الحديث ${x.n}${x.title ? ` — ${x.title}` : ''}`,
+      sourceBook: 'الأربعون النووية — الإمام النووي',
       source: escText(x.takhrij || 'الأربعون النووية')
     })).filter(x => x.text);
   }
@@ -73,8 +103,8 @@
     const out = [];
     for (const book of (data.books || [])) {
       for (const x of (book.items || [])) {
-        const raw = escText(x.t);
-        if (!raw) continue;
+        const parts = riyadSourceParts(x.t);
+        if (!parts.cleanText) continue;
         out.push({
           id: `riyad-${x.n}`,
           collection: 'riyad',
@@ -82,9 +112,10 @@
           book: escText(book.name),
           n: Number(x.n || 0),
           title: '',
-          text: raw,
+          text: parts.cleanText,
           meta: `${escText(book.name)} — الحديث ${x.n}`,
-          source: riyadSourceHint(raw) || 'رياض الصالحين — الإمام النووي'
+          sourceBook: 'رياض الصالحين — الإمام النووي',
+          source: summarizeTakhrij(parts.citations)
         });
       }
     }
@@ -101,7 +132,8 @@
       title: escText(x.title),
       text: escText(x.text),
       meta: `${escText(x.narrator)}${x.title ? ` — ${escText(x.title)}` : ''}`,
-      source: `متفق عليه${x.bukhari ? ` — البخاري ${x.bukhari}` : ''}${x.muslim ? ` — مسلم ${x.muslim}` : ''}`
+      sourceBook: 'اللؤلؤ والمرجان فيما اتفق عليه الشيخان',
+      source: `متفق عليه${x.bukhari ? ` — صحيح البخاري: ${x.bukhari}` : ''}${x.muslim ? ` — صحيح مسلم: ${x.muslim}` : ''}`
     })).filter(x => x.text);
   }
 
@@ -166,6 +198,7 @@
     if (!item) {
       $('hadithText').textContent = 'لا توجد أحاديث تطابق الإعدادات الحالية.';
       $('hadithMeta').textContent = 'افتح الإعدادات واختر مصدرًا واحدًا على الأقل.';
+      $('hadithSourceBook').textContent = '';
       $('hadithSource').textContent = '';
       $('collectionLabel').textContent = '';
       return;
@@ -174,8 +207,9 @@
     const txt = $('hadithText');
     txt.className = `hadith-text ${fontClass(item.text.length)}`;
     txt.textContent = item.text;
+    $('hadithSourceBook').textContent = item.sourceBook || item.collectionLabel;
     $('hadithMeta').textContent = item.meta;
-    $('hadithSource').textContent = item.source;
+    $('hadithSource').textContent = item.source ? `التخريج: ${item.source}` : '';
     $('collectionLabel').textContent = `${item.collectionLabel}${item.book && item.book !== item.collectionLabel ? ` · ${item.book}` : ''}`;
     $('stage').classList.remove('is-loading');
     updateCounter();
@@ -287,7 +321,8 @@
   }
 
   function applyTheme() {
-    document.body.classList.toggle('theme-paper', state.settings.theme === 'paper');
+    if (!['ivory','sage'].includes(state.settings.theme)) state.settings.theme = 'ivory';
+    document.body.classList.toggle('theme-sage', state.settings.theme === 'sage');
   }
 
   function fillSettingsUI() {
@@ -317,7 +352,7 @@
       duration: Number($('durationSelect').value || 20),
       order: $('orderSelect').value,
       maxChars: Number($('lengthSelect').value || 0),
-      theme: $('themeSelect').value,
+      theme: ['ivory','sage'].includes($('themeSelect').value) ? $('themeSelect').value : 'ivory',
       clock: $('clockToggle').checked,
       autoHide: $('autoHideToggle').checked
     };
