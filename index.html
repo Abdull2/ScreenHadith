@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f7f0df" />
   <meta name="color-scheme" content="light dark" />
-  <meta name="description" content="مِشكاة: شاشة أحاديث نبوية موثقة، خفيفة وقابلة للعمل دون اتصال بعد أول تحميل." />
+  <meta name="description" content="مِشكاة: شاشة عرض لنصوص رياض الصالحين كما هي في المصدر، دون اختصار أو إعادة صياغة." />
   <title>مِشكاة | شاشة الحديث</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" />
@@ -13,141 +13,58 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="ambient" aria-hidden="true">
-    <div class="pattern pattern-a"></div>
-    <div class="pattern pattern-b"></div>
-  </div>
+  <div class="ambient" aria-hidden="true"><div class="pattern pattern-a"></div><div class="pattern pattern-b"></div></div>
 
   <main id="display" class="display">
     <header class="topline">
       <div class="brand" aria-label="مشكاة شاشة الحديث">
-        <span class="brand-logo" aria-hidden="true">
-          <svg viewBox="0 0 64 64"><path d="M32 7c10 8 16 17 16 26 0 10-7 18-16 25-9-7-16-15-16-25 0-9 6-18 16-26Z" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M23 33h18M27 25h10M27 42h10" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>
-        </span>
-        <span class="brand-mark">مِشكاة</span>
-        <span class="brand-sub">شاشة الحديث</span>
+        <span class="brand-logo" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 7c10 8 16 17 16 26 0 10-7 18-16 25-9-7-16-15-16-25 0-9 6-18 16-26Z" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M23 33h18M27 25h10M27 42h10" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg></span>
+        <span class="brand-mark">مِشكاة</span><span class="brand-sub">شاشة الحديث</span>
       </div>
       <div id="clock" class="clock" aria-label="الوقت الحالي"></div>
     </header>
 
     <section id="stage" class="stage is-loading">
-      <div class="eyebrow">قال رسول الله ﷺ</div>
-      <blockquote id="hadithText" class="hadith-text">جارٍ تجهيز مكتبة الأحاديث…</blockquote>
-
-      <section class="source-card" aria-label="مصدر الحديث وتخريجه">
-        <div class="source-copy">
-          <div class="source-kicker">المصدر والتخريج</div>
-          <div id="hadithSourceBook" class="source-book"></div>
-          <div id="hadithRawi" class="source-row source-rawi" hidden><span>الراوي</span><strong></strong></div>
-          <div id="hadithMeta" class="source-row"><span>الموضع</span><strong></strong></div>
-          <div id="hadithSource" class="source-row source-takhrij"><span>التخريج</span><strong></strong></div>
-          <div id="alsoIn" class="source-also" hidden></div>
-          <div class="source-links">
-            <a id="sourceLink" href="#" target="_blank" rel="noopener noreferrer" hidden>فتح مرجع النص</a>
-            <a id="commentaryLink" href="#" target="_blank" rel="noopener noreferrer" hidden>شرح مرجعي</a>
-          </div>
-        </div>
-        <div id="qrWrap" class="qr-wrap" hidden>
-          <canvas id="sourceQr" width="180" height="180" aria-label="رمز QR لمرجع الحديث"></canvas>
-          <small>امسح للتحقق من المصدر</small>
-          <span id="sourceDomain"></span>
+      <div class="eyebrow"><span>رياض الصالحين</span><small id="partLabel"></small></div>
+      <blockquote id="hadithText" class="hadith-text">جارٍ التحقق من المكتبة الأصلية…</blockquote>
+      <section class="source-card" aria-label="مصدر النص">
+        <div class="source-kicker">المصدر والتحقق</div>
+        <div class="source-book">رياض الصالحين — الإمام يحيى بن شرف النووي</div>
+        <div class="source-row"><span>الكتاب</span><strong id="bookName"></strong></div>
+        <div class="source-row"><span>رقم الحديث</span><strong id="hadithNumber"></strong></div>
+        <div class="source-row"><span>النص</span><strong>معروض حرفيًا من ملف المصدر دون حذف أو إعادة صياغة</strong></div>
+        <div class="source-links">
+          <a id="hadithLink" href="#" target="_blank" rel="noopener noreferrer">فتح موضع الحديث للتحقق</a>
+          <a href="https://old.shamela.ws/index.php/book/12014" target="_blank" rel="noopener noreferrer">مرجع الكتاب — تحقيق شعيب الأرنؤوط</a>
         </div>
       </section>
     </section>
 
-    <footer class="bottomline">
-      <div id="collectionLabel" class="collection-label"></div>
-      <div id="counter" class="counter"></div>
-    </footer>
-
+    <footer class="bottomline"><div id="collectionLabel" class="collection-label"></div><div id="counter" class="counter"></div></footer>
     <div class="progress-track" aria-hidden="true"><div id="progressBar" class="progress-bar"></div></div>
   </main>
 
   <div id="announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
-
   <button id="showControls" class="floating-control" type="button" aria-label="إظهار أدوات التحكم">☰</button>
   <div id="controls" class="controls is-visible" role="toolbar" aria-label="أدوات العرض">
-    <button id="prevBtn" type="button">السابق</button>
-    <button id="pauseBtn" type="button">إيقاف مؤقت</button>
-    <button id="nextBtn" type="button">التالي</button>
-    <button id="fullscreenBtn" type="button">ملء الشاشة</button>
-    <button id="settingsBtn" type="button">الإعدادات</button>
+    <button id="prevBtn" type="button">السابق</button><button id="pauseBtn" type="button">إيقاف مؤقت</button><button id="nextBtn" type="button">التالي</button><button id="fullscreenBtn" type="button">ملء الشاشة</button><button id="settingsBtn" type="button">الإعدادات</button>
   </div>
 
   <div id="startOverlay" class="start-overlay">
-    <div class="start-card">
-      <img src="icon-192.png" alt="" class="start-logo" />
-      <h1>مِشكاة</h1>
-      <p>شاشة أحاديث نبوية موثقة. بعد أول تحميل تعمل المكتبة الأساسية دون اتصال.</p>
-      <div id="librarySummary" class="library-summary">جارٍ تحميل المكتبة…</div>
-      <button id="startBtn" class="primary" type="button" disabled>ابدأ العرض</button>
-      <button id="startFullscreenBtn" type="button" disabled>ابدأ بملء الشاشة</button>
-    </div>
+    <div class="start-card"><img src="icon-192.png" alt="" class="start-logo" /><h1>مِشكاة</h1><p>نسخة السلامة النصية: تعرض نص رياض الصالحين كما هو في المصدر، بلا خوارزمية لفصل السند أو اختصار المتن.</p><div id="librarySummary" class="library-summary">جارٍ فحص 1896 سجلًا…</div><button id="startBtn" class="primary" type="button" disabled>ابدأ العرض</button><button id="startFullscreenBtn" type="button" disabled>ابدأ بملء الشاشة</button></div>
   </div>
 
   <dialog id="settingsDialog" class="settings-dialog">
     <form method="dialog" id="settingsForm">
-      <div class="settings-head">
-        <div>
-          <h2>إعدادات العرض</h2>
-          <p>تُحفظ على هذا الجهاز فقط.</p>
-        </div>
-        <button value="cancel" class="icon-btn" aria-label="إغلاق">×</button>
-      </div>
-
-      <fieldset>
-        <legend>مصادر الأحاديث</legend>
-        <label><input id="srcNawawi" type="checkbox" /> الأربعون النووية <small id="countNawawi"></small></label>
-        <label><input id="srcRiyad" type="checkbox" /> رياض الصالحين <small id="countRiyad"></small></label>
-        <label><input id="srcAgreed" type="checkbox" /> مختارات المتفق عليه <small id="countAgreed"></small></label>
-      </fieldset>
-
+      <div class="settings-head"><div><h2>إعدادات العرض</h2><p>الإعدادات لا تغيّر نص الحديث.</p></div><button value="cancel" class="icon-btn" aria-label="إغلاق">×</button></div>
+      <div class="integrity-note"><strong>حماية النص مفعّلة:</strong> لا فصل سند، لا حذف تخريج، لا استبدال ألفاظ. الأحاديث الطويلة تظهر في أجزاء متتابعة، ومجموع الأجزاء يساوي النص الأصلي حرفيًا.</div>
       <div class="settings-grid">
-        <label>مدة ظهور الحديث
-          <select id="durationSelect">
-            <option value="10">10 ثوانٍ</option>
-            <option value="15">15 ثانية</option>
-            <option value="20">20 ثانية</option>
-            <option value="30">30 ثانية</option>
-            <option value="45">45 ثانية</option>
-            <option value="60">60 ثانية</option>
-          </select>
-        </label>
-
-        <label>ترتيب العرض
-          <select id="orderSelect">
-            <option value="random">عشوائي</option>
-            <option value="sequential">متسلسل</option>
-          </select>
-        </label>
-
-        <label>طول المتن المعروض
-          <select id="lengthSelect">
-            <option value="320">قصير — الأنسب للشاشات البعيدة</option>
-            <option value="620">قصير ومتوسط</option>
-            <option value="1000">حتى 1000 حرف</option>
-            <option value="0">كل الأطوال</option>
-          </select>
-        </label>
-
-        <label>ألوان الشاشة
-          <select id="themeSelect">
-            <option value="auto">تلقائي — فاتح نهارًا / ليلي بعد 9م</option>
-            <option value="ivory">فاتح عاجي</option>
-            <option value="sage">فاتح أخضر ضبابي</option>
-            <option value="night">ليلي هادئ</option>
-          </select>
-        </label>
+        <label>الحد الأدنى لزمن كل جزء<select id="durationSelect"><option value="12">12 ثانية</option><option value="20">20 ثانية</option><option value="30">30 ثانية</option><option value="45">45 ثانية</option><option value="60">60 ثانية</option></select></label>
+        <label>ترتيب العرض<select id="orderSelect"><option value="random">عشوائي</option><option value="sequential">متسلسل</option></select></label>
+        <label>الأحاديث المعروضة<select id="lengthSelect"><option value="0">كل 1896 حديثًا</option><option value="500">الأقصر فقط — حتى 500 حرف</option><option value="900">القصير والمتوسط — حتى 900 حرف</option></select></label>
+        <label>ألوان الشاشة<select id="themeSelect"><option value="ivory">فاتح عاجي</option><option value="sage">فاتح أخضر ضبابي</option><option value="auto">تلقائي — ليلي بعد 9م</option><option value="night">ليلي هادئ</option></select></label>
       </div>
-
-      <label class="toggle-line"><input id="clockToggle" type="checkbox" /> إظهار الساعة</label>
-      <label class="toggle-line"><input id="autoHideToggle" type="checkbox" /> إخفاء أدوات التحكم تلقائيًا</label>
-      <label class="toggle-line"><input id="burnToggle" type="checkbox" /> تحريك مواضع العناصر قليلًا دوريًا لتقليل ثبات الصورة</label>
-
-      <div class="settings-note">
-        <strong>المتن منفصل عن السند والتخريج:</strong> الشاشة تعرض متن الحديث كبيرًا، ثم الراوي واسم الكتاب والموضع والتخريج في بطاقة المصدر. رمز QR يُولّد مسبقًا داخل البيانات ويعمل حتى لو كانت الشاشة نفسها دون اتصال.
-      </div>
-
+      <label class="toggle-line"><input id="clockToggle" type="checkbox" /> إظهار الساعة</label><label class="toggle-line"><input id="autoHideToggle" type="checkbox" /> إخفاء أدوات التحكم تلقائيًا</label><label class="toggle-line"><input id="burnToggle" type="checkbox" /> تحريك العناصر قليلًا دوريًا لتقليل ثبات الصورة</label>
       <div class="settings-actions"><button id="applySettings" value="default" class="primary">تطبيق</button></div>
     </form>
   </dialog>
