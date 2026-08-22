@@ -27,16 +27,15 @@
     <section id="stage" class="stage is-loading">
       <div class="eyebrow"><small id="partLabel"></small></div>
       <blockquote id="hadithText" class="hadith-text">جارٍ التحقق من المكتبة الأصلية…</blockquote>
-      <section class="source-card" aria-label="مصدر النص">
-        <div class="source-kicker">المصدر والتحقق</div>
-        <div class="source-book">رياض الصالحين — الإمام يحيى بن شرف النووي</div>
-        <div class="source-row"><span>الكتاب</span><strong id="bookName"></strong></div>
-        <div class="source-row"><span>رقم الحديث</span><strong id="hadithNumber"></strong></div>
-        <div class="source-row"><span>سلامة العرض</span><strong>مساحة النص تعرض محتوى حقل المصدر كما هو دون إضافة عبارة ثابتة إليه</strong></div>
-        <div class="source-links">
-          <a id="hadithLink" href="#" target="_blank" rel="noopener noreferrer">فتح موضع الحديث للتحقق</a>
-          <a href="https://old.shamela.ws/index.php/book/12014" target="_blank" rel="noopener noreferrer">مرجع الكتاب — تحقيق شعيب الأرنؤوط</a>
+      <section class="source-bar" aria-label="بيانات الحديث">
+        <div class="source-summary">
+          <span class="source-book">رياض الصالحين</span>
+          <span aria-hidden="true">·</span>
+          <span id="bookName"></span>
+          <span aria-hidden="true">·</span>
+          <strong>حديث <span id="hadithNumber"></span></strong>
         </div>
+        <button id="sourceBtn" class="source-button" type="button">المصدر والتحقق</button>
       </section>
     </section>
 
@@ -51,8 +50,36 @@
   </div>
 
   <div id="startOverlay" class="start-overlay">
-    <div class="start-card"><img src="icon-192.png" alt="" class="start-logo" /><h1>مِشكاة</h1><p>نسخة السلامة النصية: مساحة عرض النص لا تضيف أي عبارة دينية ثابتة فوق الحديث؛ ما يظهر داخلها هو نص المصدر فقط.</p><div id="librarySummary" class="library-summary">جارٍ فحص 1896 سجلًا…</div><button id="startBtn" class="primary" type="button" disabled>ابدأ العرض</button><button id="startFullscreenBtn" type="button" disabled>ابدأ بملء الشاشة</button></div>
+    <div class="start-card"><img src="icon-192.png" alt="" class="start-logo" /><h1>مِشكاة</h1><p>يعرض مِشكاة نصوص رياض الصالحين من ملف البيانات المعتمد دون اختصار أو إعادة صياغة، مع فحص سلامة المكتبة قبل بدء العرض.</p><div id="librarySummary" class="library-summary">جارٍ التحقق من المكتبة…</div><button id="startBtn" class="primary" type="button" disabled>ابدأ العرض</button><button id="startFullscreenBtn" type="button" disabled>ابدأ بملء الشاشة</button></div>
   </div>
+
+
+  <dialog id="sourceDialog" class="source-dialog">
+    <div class="source-dialog-body">
+      <div class="settings-head">
+        <div><h2>المصدر والتحقق</h2><p>تفاصيل النسخة المعروضة ومراجع مستقلة للمقارنة.</p></div>
+        <button id="closeSourceBtn" class="icon-btn" type="button" aria-label="إغلاق">×</button>
+      </div>
+      <section class="source-section">
+        <h3>مصدر النص</h3>
+        <p><strong>رياض الصالحين — الإمام يحيى بن شرف النووي.</strong></p>
+        <p>النص المعروض مأخوذ من ملف البيانات المعتمد داخل هذه النسخة من مِشكاة، ويُتحقق من بصمته قبل بدء العرض.</p>
+        <dl class="source-details">
+          <div><dt>الكتاب</dt><dd id="sourceBookName"></dd></div>
+          <div><dt>رقم الحديث</dt><dd id="sourceHadithNumber"></dd></div>
+          <div><dt>سلامة المكتبة</dt><dd id="sourceIntegrity">جارٍ التحقق…</dd></div><div><dt>نسخة التطبيق</dt><dd>مِشكاة v0.7</dd></div>
+        </dl>
+      </section>
+      <section class="source-section">
+        <h3>مراجع للمقارنة والتحقق</h3>
+        <p class="reference-note">هذه الروابط مراجع خارجية للمقارنة، ولا تعني أن النص المعروض منقول حرفيًا منها.</p>
+        <div class="source-links">
+          <a id="hadithLink" href="#" target="_blank" rel="noopener noreferrer">موضع الحديث على Sunnah.com</a>
+          <a href="https://old.shamela.ws/index.php/book/12014" target="_blank" rel="noopener noreferrer">مرجع الكتاب على الشاملة</a>
+        </div>
+      </section>
+    </div>
+  </dialog>
 
   <dialog id="settingsDialog" class="settings-dialog">
     <form method="dialog" id="settingsForm">
@@ -69,6 +96,7 @@
     </form>
   </dialog>
 
+  <div id="updateBanner" class="update-banner" role="status" aria-live="polite"><span>يتوفر إصدار أحدث من مِشكاة.</span><button id="updateBtn" type="button">تحديث الآن</button><button id="dismissUpdateBtn" type="button" aria-label="إخفاء إشعار التحديث">لاحقًا</button></div>
   <div id="toast" class="toast" role="status"></div>
   <script src="app.js" defer></script>
 </body>
